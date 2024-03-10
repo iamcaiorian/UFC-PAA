@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Atividade Continuada 1</title>
+
+  <!-- MATHJAX 3 (através da CDN) -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- MATHJAX 3 (salvo no computador) -->
+  <!-- <script type="text/javascript" async src="../../../Aplicativos/MathJax-master/es5/tex-mml-chtml.js" async></script> -->
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .answer {
+      background-color: #f2f2f2;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+    .answer p {
+      margin: 0;
+    }
+    .answer code {
+      display: block;
+      padding: 5px;
+      background-color: #e6e6e6;
+      border-radius: 3px;
+    }
+    .title_answer {
+      font-weight: bold;
+      
+    }
+  </style>
+</head>
+<body>
+  <ol>
+    <li>
+      <span>Projete um algoritmo para calcular \(\lfloor \sqrt{n} \rfloor\) utilizando apenas comandos de seleção, repetição e atribuição, e as quatro operações aritméticas básicas. Obs.: Como apenas a parte inteira do valor raiz quadrada é solicitado, use um algoritmo iterativo simples que testa todos os valores inteiros dentro de uma faixa de valores possíveis.</span>
+      <div class="answer">
+        <p class="title_answer">Resposta:</p>
+        <pre><code>algoritmo pisoDaRaiz(n):
+    i = 1
+    enquanto (i * i) &lt;= n
+        i = i + 1
+    returne i - 1</code></pre>
+      </div>
+    </li>
+
+    <li>
+      <span>Considere a ordenação de \(n\) números armazenados no vetor \(A = \langle a_1, a_2, \ldots, a_n \rangle\), localizando primeiro o menor elemento de \(A\) e permutando esse elemento com o elemento contido em \(A[1]\). Em seguida, determine o segundo menor elemento de \(A\) e permute-o com \(A[2]\). Continue dessa maneira para os primeiros \(n-1\) elementos de \(A\). Escreva o pseudocódigo para esse algoritmo, conhecido como <strong>ordenação por seleção</strong>. Forneça os tempos de execução \(T(n)\) do melhor caso e do pior caso da ordenação por seleção. O cálculo de \(T(n)\) deve ser feito de modo formal, como foi realizado em sala para a ordenação por inserção.</span>
+      <div class="answer">
+        <p class="title_answer">Resposta:</p>
+        <pre><code>algoritmo ordenar(vetor[], tamanho) 
+    Para i de 0 até tamanho - 1, incrementando 1:
+        minIndex = i
+        Para j de i + 1 até tamanho - 1, incrementando 1:
+            Se vetor[j] &lt; vetor[minIndex], então:
+                minIndex = j
+
+        temp = vetor[i]
+        vetor[i] = vetor[minIndex]
+        vetor[minIndex] = temp</code></pre>
+        <p>
+          Para o melhor caso, o vetor já está ordenado, então o algoritmo percorre o vetor apenas uma vez, sem realizar trocas. Assim, o tempo de execução é \(T(n) = n - 1\). <br>
+          Para o pior caso, o vetor está ordenado de forma decrescente, então o algoritmo percorre o vetor \(n\) vezes, realizando \(n - 1\) trocas. Assim, o tempo de execução é \(T(n) = \frac{n^2 - n}{2}\).
+        </p>
+
+      </div>
+    </li>
+
+    <li>
+      <p>Prove as seguintes afirmações:</p>
+      <ul>
+        <li>\( (n+1)^2 = O(n^2) \)</li>
+        <div class="answer">
+          <p class="title_answer">Resposta:</p>
+          <p>Para provar que \( (n+1)^2 = O(n^2) \), temos \( f(n) = (n + 1)² \) e \( g(n) = n² \). <br>
+              É preciso encontrar constantes positivas \( c \) e \( n_0 \) tais que \( (n + 1)² \leq c \cdot n² \) para todo \( n \geq n_0\ ). <br>
+              Pela propiedade de produtos notáveis, temos que \( (n + 1)² = n² + 2n + 1 \). <br>
+              Note que \( 2n² \ge 2n \) para todo \(n \ge 0\) e que \( n² \ge 1 \) para todo \( n \ge 1 \). <br>
+              Logo, \( (n + 1)² = n² + 2n + 1 \le n² + 2n² + n² = 4n² \) para todo \(n \ge 1 \). <br>
+              Assim, concluímos que \( f(n) \leq c \cdot g(n) \) para \( c = 4 \) e \(n \ge n_0 = 1 \). <br>
+          </p>
+        </div>
+
+        <li>\( n^2-3n-18 = \Omega(n^2) \)</li>
+        <div class="answer">
+          <p class="title_answer">Resposta:</p>
+          <p>Para provar que \( n^2 - 3n - 18 = \Omega(n^2) \), temos \( f(n) = n^2 - 3n - 18 \) e \( g(n) = n^2 \). <br>
+              É preciso encontrar constantes positivas \( c \) e \( n_0 \) tais que \( n^2 - 3n - 18 \geq c \cdot n² \) para todo \( n \geq n_0 \). <br>
+              Escolhendo \( n_0 = 10 \), partimos da inequação obter c: <br>
+              \( n^2 - 3n - 18 \geq c \cdot n² \) <br>
+              Dividindo ambos os lados por \( n² \), obtemos: <br>
+              \( 1 - \frac{3}{n} - \frac{18}{n²} \geq c \) <br>
+              Substituindo \( n \) por \( n_0 = 10 \), obtemos: <br>
+              \( 1 - \frac{3}{10} - \frac{18}{100} \geq c \) <br>
+              \( 1 - 0,3 - 0,18 \geq c \) <br>
+              \( 0,52 \geq c \) <br>
+              Logo, \( n^2 - 3n - 18 \geq 0,52 \cdot n² \) para todo \( n \ge 10 \). <br>
+              Assim, concluímos que \( f(n) \geq c \cdot g(n) \) para \( c = 0,52 \) e \(n \ge n_0 = 10 \). <br>
+          </p>
+        </div>
+
+        <li>\( n^3-3n^2-n = \Omega(n^3) \)</li>
+        <div class="answer">
+          <p class="title_answer">Resposta:</p>
+          <p>Para provar que \( n^3 - 3n^2 - n = \Omega(n^3) \), temos \( f(n) = n^3 - 3n^2 - n \) e \( g(n) = n^3 \). <br>
+              É preciso encontrar constantes positivas \( c \) e \( n_0 \) tais que \( n^3 - 3n^2 - n \geq c \cdot n³ \) para todo \( n \geq n_0 \). <br>
+              Escolhendo \( n_0 = 10 \), partimos da inequação obter c: <br>
+              \( n^3 - 3n^2 - n \geq c \cdot n³ \) <br>
+              Dividindo ambos os lados por \( n³ \), obtemos: <br>
+              \( 1 - \frac{3}{n} - \frac{1}{n²} \geq c \) <br>
+              Substituindo \( n \) por \( n_0 = 10 \), obtemos: <br>
+              \( 1 - \frac{3}{10} - \frac{1}{100} \geq c \) <br>
+              \( 1 - 0,3 - 0,01 \geq c \) <br>
+              \( 0,69 \geq c \) <br>
+              Logo, \( n^3 - 3n^2 - n \geq 0,69 \cdot n³ \) para todo \( n \ge 10 \). <br>
+              Assim, concluímos que \( f(n) \geq c \cdot g(n) \) para \( c = 0,69 \) e \(n \ge n_0 = 10 \). <br>
+          </p>
+        </div>
+
+        <li>\(\lg(100n^3+200n+300)^2 = O(\lg n)\)</li>
+        <div class="answer">
+          <p class="title_answer">Resposta:</p>
+          <p>Para provar que \( \lg(100n^3+200n+300)^2 = O(\lg n) \), temos \( f(n) = \lg(100n^3+200n+300)^2 \) e \( g(n) = \lg n \). <br>
+              É preciso encontrar constantes positivas \( c \) e \( n_0 \) tais que \( \lg(100n^3+200n+300)^2 \leq c \cdot \lg n \) para todo \( n \geq n_0 \). <br>
+              Escolhendo \( n_0 = 10 \), partimos da inequação obter c: <br>
+              \( \lg(100n^3+200n+300)^2 \leq c \cdot \lg n \) <br>
+              Aplicando a propriedade de logaritmo, obtemos: <br>
+              \( 2 \cdot \lg(100n^3+200n+300) \leq c \cdot \lg n \) <br>
+              Substituindo \( n \) por \( n_0 = 10 \), obtemos: <br>
+              \( 2 \cdot \lg(100 \cdot 10^3+200 \cdot 10+300) \leq c \cdot \lg 10 \) <br>
+              \( 2 \cdot \lg(100000+2000+300) \leq c \cdot 1 \) <br>
+              \( 2 \cdot \lg(102300) \leq c \) <br>
+              \( 2 \cdot 5,01 \leq c \) <br>
+              \( 10,02 \leq c \) <br>
+              Logo, \( \lg(100n^3+200n+300)^2 \leq 10,02 \cdot \lg n \) para todo \( n \ge 10 \). <br>
+              Assim, concluímos que \( f(n) \leq c \cdot g(n) \) para \( c = 10,02 \) e \(n \ge n_0 = 10 \). <br>
+          </p>
+        </div>
+
+      </ul>
+    </li>
+  </ol>
+</body>
+</html>
