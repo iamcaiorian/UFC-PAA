@@ -1,31 +1,30 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
-void ordenar(int vetor[], int tamanho) {
-    for(int i = 0; i < tamanho; ++i) {
+
+void selectionSort(vector<int> &arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; i++) {
         int minIndex = i;
-        for (int j = i + 1; j < tamanho; ++j) {
-            if (vetor[j] < vetor[minIndex]) {
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
                 minIndex = j;
             }
         }
-        int temp = vetor[i];
-        vetor[i] = vetor[minIndex];
-        vetor[minIndex] = temp;
+        // Swap arr[i] with the smallest element found
+        if (minIndex != i) {
+            swap(arr[i], arr[minIndex]);
+        }
     }
 }
 
 int main() {
-    int vetor[1000];
-    int tamanho = 1000;
-    for(int i = 0; i < 1000; i++) {
-        vetor[i] = 1000 - i;
-    }
-
-    ordenar(vetor, tamanho);
-
-    for(int i = 0; i < tamanho; i++) {
-        cout << vetor[i] << " ";
+    vector<int> arr = {5, 2, 3, 1, 4};
+    selectionSort(arr);
+    
+    for (int i = 0; i < arr.size(); i++) {
+        cout << arr[i] << " ";
     }
 }

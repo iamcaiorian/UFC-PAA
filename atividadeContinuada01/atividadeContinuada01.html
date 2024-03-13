@@ -35,6 +35,9 @@
       font-weight: bold;
 
     }
+    .negrito {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -55,45 +58,67 @@
       <span>Considere a ordenação de \(n\) números armazenados no vetor \(A = \langle a_1, a_2, \ldots, a_n \rangle\), localizando primeiro o menor elemento de \(A\) e permutando esse elemento com o elemento contido em \(A[1]\). Em seguida, determine o segundo menor elemento de \(A\) e permute-o com \(A[2]\). Continue dessa maneira para os primeiros \(n-1\) elementos de \(A\). Escreva o pseudocódigo para esse algoritmo, conhecido como <strong>ordenação por seleção</strong>. Forneça os tempos de execução \(T(n)\) do melhor caso e do pior caso da ordenação por seleção. O cálculo de \(T(n)\) deve ser feito de modo formal, como foi realizado em sala para a ordenação por inserção, faça a análise linha por linha.</span>
       <div class="answer">
         <p class="title_answer">Resposta:</p>
-        <pre><code>algoritmo ordenar(vetor[0..n-1]) 
-    Para i de 0 até n-1, incrementando 1:
-        minIndex = i
-        Para j de i + 1 até n-1, incrementando 1:
-            Se vetor[j] &lt; vetor[minIndex], então:
-                minIndex = j
+        <pre><code>
+    Algoritmo: Selection-Sort(A)
+    Entrada: um vetor de inteiros A 
+    Saída: vetor A ordenado em ordem crescente
 
-        temp = vetor[i]
-        vetor[i] = vetor[minIndex]
-        vetor[minIndex] = temp</code></pre>
+1.    for i = 1 to A.length-1
+2.      minIndex = i 
+3.      for j = i+1 to A.length
+4.        if A[j] < A[minIndex]
+5.          minIndex = j 
+6.      aux = A[i] 
+7.      A[i] = A[minIndex] 
+8.      A[minIndex] = aux
+        </code></pre>
 
         \[
-        \begin{array}{|r|r|r|r|}
+        \begin{array}{|l|l|l|}
         \hline
-        \text{algoritmo ordenar(vetor[0..n-1])} & \text{Melhor caso} & \text{Pior caso} \\
+        \text{Algoritmo} & \text{Custo} & \text{Nº de Passos} \\
         \hline
-        \text{Para i de 0 até n-1, incrementando 1:} & O(n) & O(n) \\
+        \text{for } i = 1 \text{ to } A.\text{length}-1 & C_1 & n \\
+        \hline  
+        \text{minIndex = i} & C_2 & n-1 \\
         \hline
-        \text{minIndex = i} & O(1) & O(1) \\
+        \text{for } j = i+1 \text{ to } A.\text{length} & C_3 & \sum_{i=1}^{n-1} (n - i + 1) \\
         \hline
-        \text{Para j de i + 1 até n-1, incrementando 1:} & O(n) & O(n) \\
+        \text{if } A[j] < A[\text{minIndex}] & C_4 & \sum_{i=1}^{n-1} (n - i) \\
         \hline
-        \text{Se vetor[j] < vetor[minIndex], então:} & O(n) & O(n) \\
+        \text{minIndex = j} & C_5 & \sum_{i=1}^{n-1} s_i \\
         \hline
-        \text{minIndex = j} & O(1) & O(1) \\
+        \text{aux = A[i]} & C_6 & n-1 \\
         \hline
-        \text{temp = vetor[i]} & O(1) & O(1) \\
+        \text{A[i] = A[minIndex]} & C_7 & n-1 \\
         \hline
-        \text{vetor[i] = vetor[minIndex]} & O(1) & O(1) \\
-        \hline
-        \text{vetor[minIndex] = temp} & O(1) & O(1) \\
+        \text{A[minIndex] = aux} & C_8 & n-1 \\
         \hline
         \end{array}
         \]
 
-        <p>
-          Para o melhor caso e pior caso a complexidade do algoritmo é \(O(n^2)\).
-        </p>
+        <p>Pelas propriedades de somatório, temos que</p>
+        \[ \sum_{i=1}^{n-1}(n-i)=\sum_{i=1}^{n-1}n-\sum_{i=1}^{n-1}i=n\cdot\sum_{i=1}^{n-1}1-\sum_{i=1}^{n-1}i=n(n-1)-\frac{n(n-1)}{2}=\frac{n(n-1)}{2}=\frac{n^2 - n}{2} \]
 
+        <p>Tomando esse resultado acima, também obtemos que</p>
+        \[ \sum_{i=1}^{n-1}(n-i+1)=\sum_{i=1}^{n-1}(n-i)+\sum_{i=1}^{n-1}1=n\cdot\frac{n-1}{2}+(n-1)=(n-1)\left(\frac{n+2}{2}\right)=\frac{n^2+n-2}{2} \]
+
+        <p>Assim, o número de passos \( T(n) \) da ordenação por seleção é</p>
+        \[ T(n)=c_1n+c_2(n-1)+c_3\left(n^2+\frac{n-2}{2}\right)+c_4\left(n^2-\frac{n^2}{2}\right)+c_5\sum_{i=1}^{n-1}si+c_6(n-1)+c_7(n-1)+c_8(n-1) \]
+
+        <p><span class="negrito">Melhor Caso:</span> O melhor caso do selection-sort se configura quando o vetor já está ordenado, o que faz com que a linha 5 nunca seja executada e, portanto, implica em \( si=0 \) para todo \( i \). Assim, a função que dá o melhor caso é:</p>
+        \[ T(n)=c_1n+c_2(n-1)+c_3\left(n^2+\frac{n-2}{2}\right)+c_4\left(n^2-\frac{n^2}{2}\right)+c_5\sum_{i=1}^{n-1}0+c_6(n-1)+c_7(n-1)+c_8(n-1) \]
+        \[ T(n)=c_1n+c_2(n-1)+c_3\left(n^2+\frac{n-2}{2}\right)+c_4\left(n^2-\frac{n^2}{2}\right)+c_6(n-1)+c_7(n-1)+c_8(n-1) \]
+
+        <p>que é uma função da forma \( T(n)=an^2+bn+c \), onde \( a \), \( b \), \( c \) são constantes. Portanto, o melhor caso da ordenação é da ordem de uma função quadrática.</p> <br>
+
+        <p><span class="negrito">Pior Caso:</span> O pior caso do selection-sort se configura quando o vetor está em ordem decrescente, o que faz com que a linha 5 seja executada \( n-i \) vezes e, portanto, implica em \( si=n-i \) para todo \( i \). Assim, a função que dá o pior caso é:</p>
+        \[ T(n)=c_1n+c_2(n-1)+c_3\left(n^2+\frac{n-2}{2}\right)+c_4\left(n^2-\frac{n^2}{2}\right)+c_5\sum_{i=1}^{n-1}(n-i)+c_6(n-1)+c_7(n-1)+c_8(n-1) \]
+        \[ T(n)=c_1n+c_2(n-1)+c_3\left(n^2+\frac{n-2}{2}\right)+c_4\left(n^2-\frac{n^2}{2}\right)+c_5(n^2-\frac{n^2}{2})+c_6(n-1)+c_7(n-1)+c_8(n-1) \]
+
+        <p>que é uma função da forma \( T(n)=an^2+bn+c \), onde \( a \), \( b \), \( c \) são constantes. Portanto, o pior caso da ordenação por seleção é também da ordem de uma função quadrática.</p>
+
+        
       </div>
     </li>
 
