@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Atividade Continuada 5</title>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .answer {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: left;
+        margin: 20px;
+        padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>Questões</h1>
+
+  <ul>
+    <li>
+      <p><strong>Questão 1 (Encontrar o máximo de um vetor)</strong> 
+        Considere o problema de encontrar o máximo em um vetor de \(n\) números.
+        Projete um algoritmo de divisão e conquista para o problema. 
+        Experimente duas abordagens: usar um subproblema de tamanho \(n-1\) e,
+        a segunda, dividir o subproblema em
+        dois subproblemas de tamanho aproximadamente \(n/2\). 
+        Qual a melhor abordagem? Qual tem a melhor 
+        complexidade no pior caso? (Justifique formalmente)
+      </p>
+
+      <div class="answer">
+        <p><strong>Primeira abordagem:</strong></p>
+  
+        <pre><code>
+          findMax(A, maxValue = A[1], index = 2):
+            1. se (index > n)
+            2.   return maxValue
+            3. se A[index] > maxValue
+            4.   findMax(A, A[index], index + 1)
+            5. senão
+            6.   findMax(A, maxValue, index + 1)
+        </code></pre>
+  
+        <p><strong>Segunda abordagem:</strong></p>
+  
+        <pre><code>
+          1. findMax(A, inicio = 1, fim):
+          2.
+          3. se inicio > fim 
+          4.   retorne 
+          5. 
+          6.  
+          7. meio = (inicio+fim)/2
+          8. maiorPrimeiraMetade = findMax(A, inicio, meio)
+          9. maiorSegundaMetade = findMax(A, meio + 1, fim)
+        10.
+        11. return max(maiorPrimeiraMetade, maiorSegundaMetade)
+        </code></pre>
+  
+        <p>
+          Na primeira estratégia, as operações das linhas 1 a 3 e 5 são de complexidade \(O(1)\). 
+          <br>
+          As linhas 4 e 6 realizam chamadas recursivas que aumentam o índice a cada iteração, sendo que apenas uma dessas chamadas é executada por vez.
+          <br>
+          Como o índice começa em 2 e a função para quando o valor excede \(n\), teremos \(n\) chamadas recursivas no total.
+          <br>
+          Portanto, a complexidade dessa abordagem é <strong>\(O(n)\)</strong>.
+          <br>
+          Na segunda abordagem, as operações das linhas 3, 4, 7 e 11 são de complexidade \(O(1)\). As linhas 8 e 9 realizam chamadas recursivas que dividem o problema ao meio, levando a uma complexidade de \(F(n/2)\) para cada metade. Assim, o custo total é \(2F(n/2)\).
+          <br>
+          Para determinar a complexidade, utilizamos o método da substituição, ignorando as operações de \(O(1)\).
+          <br>
+          Assumimos que a função \(F(n)\) tem complexidade \(O(n)\), ou seja, existem constantes \(c\) e \(n_0\) tais que \(F(n) \leq c \cdot n\) para \(n \geq n_0\).
+          <br>
+          <br><strong>Hipótese indutiva:</strong> Suponha que para todo \(k\) com \(n_0 \leq k < n\), temos \(F(k) \leq c \cdot k\).
+          <br>
+          <br><strong>Passo indutivo:</strong> Reescrevendo a função, temos:
+          \[    F(n) = 2F\left(\frac{n}{2}\right)  \]
+          <br><strong>Aplicando a hipótese indutiva:</strong>
+          \[    F(n) \leq 2 \cdot c \cdot \frac{n}{2} = c \cdot n  \]
+          <br>
+          Como chegamos à mesma forma da hipótese indutiva, podemos concluir que a função tem complexidade \(O(n)\).
+          <br>
+          Portanto, ambas as abordagens possuem a mesma complexidade de \(O(n)\), o que indica que a escolha entre elas depende de outros fatores, já que em termos de complexidade, ambas são equivalentes.
+        </p>
+      </div>
+    </li>
+
+    <hr>
+
+    <li>
+      <p><strong>Questão 2.</strong>  
+        O <strong>transposto</strong> do grafo direcionado \(G = (V, E)\) é o 
+        grafo \(G^T = (V, E^T)\), em que \( E^T = \{(v,u) \mid u,v \in V \text{ e } 
+        (u, v) \in E\} \). 
+        Assim, de um modo informal, podemos dizer que 
+        \(G^T\) é \(G\) com todas as suas arestas invertidas. 
+        Descreva (forneça)
+        algoritmos eficientes para calcular \(G^T\) a partir de \(G\), 
+        para as representações de lista de adjacências e matriz 
+        de adjacências de \(G\). Analise os tempos de execução dos seus dois algoritmos.
+        <br><br>As análises de complexidade feitas nessa questão não precisam ser feitas
+        de modo formal, podem ser feitas de modo informal. 
+        Só se certifique de que sejam o mais fiéis possíveis à 
+        complexidade real dos seus algoritmos.
+      </p>
+
+      <div class="answer">
+        <p><strong>Primeira abordagem:</strong></p>
+        <pre><code>
+          grafoTransposto(G):
+            1.    para cada u ∈ V(G) faça
+            2.      Adj_Transposto[u] = ∅  
+            3.    para cada u ∈ V(G) faça
+            4.      para cada v ∈ Adj[u] faça   
+            5.        adicione u em Adj_Transposto[v]
+        </code></pre>
+        <p>
+          Na primeira abordagem, as operações nas linhas 1 e 2 são executadas uma vez para cada vértice, resultando em uma complexidade de \(O(V)\).
+          <br>
+          A linha 3 também roda \(O(V)\) vezes, e as linhas 4 e 5 processam todas as arestas adjacentes a cada vértice, resultando em \(O(E)\) execuções.
+          <br>
+          Portanto, a complexidade total do algoritmo é <strong>\(O(V + E)\)</strong>.
+        </p>
+        <p><strong>Segunda abordagem:</strong></p>
+        <pre><code>
+          grafoTranspostoComMatriz(G):
+            1.    n = tamanho(V(G))
+            2.    G_Transposto = matriz[n][n] preenchida com 0
+            3.    para i de 1 até n faça
+            4.       para j de 1 até n faça
+            5.          se G[i][j] = 1 então
+            6.             G_Transposto[j][i] = 1
+            7.    retorne G_Transposto       
+        </code></pre>
+        <p>
+          Na segunda abordagem, as linhas 1 e 2 são atribuições e, portanto, possuem complexidade \(O(1)\).
+          <br>
+          As linhas 3 e 4, juntas, percorrem toda a matriz de adjacência de tamanho \(n \times n\), resultando em uma complexidade de \(O(n^2)\).
+          <br>
+          A linha 5 também roda \(n^2\) vezes, mas a linha 6 será executada \(O(E)\) vezes, já que depende da existência de uma aresta de \(i\) para \(j\), sendo processada para cada aresta do grafo.
+          <br>
+          Assim, o tempo de execução total é dominado por \(O(n^2)\), sendo essa a complexidade final do algoritmo.
+        </p>
+        <p>
+          Em resumo, a complexidade da primeira abordagem é \(O(V + E)\), enquanto a da segunda abordagem é \(O(n^2)\), onde \(n\) é o número de vértices e \(E\) o número de arestas do grafo.
+        </p>
+      </div>      
+    </li>
+
+  <hr>
+
+  <li>
+    <p><strong>Questão 3.</strong> 
+      Nesta questão, vamos precisar da seguinte definição: 
+      Dado um grafo direcionado \(G=(V,E)\), um 
+      <strong>sorvedouro universal</strong> de \(G\) é um vértice de \(G\) 
+      com grau de entrada \(|V|-1\) e grau de saída \(0\).<br><br>
+      A maioria dos algoritmos em grafos que adota uma representação 
+      por matriz de adjacências como entrada exige o tempo \(O(V^2)\), 
+      mas há algumas exceções. 
+      Mostre como determinar se um grafo direcionado \(G\) contém
+      um sorvedouro universal no tempo \(O(V)\), 
+      dada como entrada uma matriz de adjacências para \(G\).<br><br>
+      A análise de complexidade feita nessa questão não precisa ser feita
+      de modo formal, pode ser feita de modo informal. 
+      Só se certifique de que seja o mais fiél possível à 
+      complexidade real do seu algoritmo.
+    </p>
+
+    <div class="answer">
+      <p><strong>Algoritmo para Encontrar um Sorvedouro Universal:</strong></p>
+      <p>
+        A estratégia para determinar se existe um sorvedouro universal em um grafo direcionado com \(V\) vértices, usando uma matriz de adjacências, é baseada em eliminar candidatos que claramente não podem ser sorvedouros e verificar o possível candidato final. O algoritmo é executado em tempo linear \(O(V)\).
+      </p>
+      
+      <p><strong>Passo a Passo:</strong></p>
+      
+      <pre><code>
+      universalSink(G):
+        1. i = 0
+        2. j = 0
+        3. enquanto i &lt; |V| e j &lt; |V| faça
+        4.    se G[i][j] == 1 então
+        5.        i = i + 1 // i não pode ser um sorvedouro
+        6.    senão
+        7.        j = j + 1 // j não pode ser um sorvedouro
+        8. 
+        9. candidato = i
+        10. // Verificar se o candidato é um sorvedouro universal
+        11. para k de 0 até |V|-1 faça
+        12.    se k ≠ candidato e (G[candidato][k] == 1 ou G[k][candidato] == 0) então
+        13.        retorne "Não há sorvedouro universal"
+        14. 
+        15. retorne "O vértice " + candidato + " é um sorvedouro universal"
+      </code></pre>
+      
+      <p><strong>Explicação:</strong></p>
+      
+      <p>O algoritmo começa eliminando os vértices que não podem ser sorvedouros. A cada iteração, analisamos as entradas \(i\) e \(j\) da matriz de adjacências \(G[i][j]\):</p>
+      <ul>
+        <li>Se \(G[i][j] == 1\), então o vértice \(i\) tem uma aresta de saída, logo, \(i\) não pode ser um sorvedouro.</li>
+        <li>Se \(G[i][j] == 0\), então o vértice \(j\) não pode ser um sorvedouro, pois não recebe todas as arestas de entrada.</li>
+      </ul>
+      <p>Após eliminar os vértices que não podem ser sorvedouros, restará um único candidato. O próximo passo é verificar se esse candidato é realmente um sorvedouro universal.</p>
+      
+      <p><strong>Análise de Complexidade:</strong></p>
+      <p>O primeiro laço (linhas 3 a 7) percorre todos os vértices uma vez, o que leva \(O(V)\). O segundo laço (linhas 11 a 13) também percorre todos os vértices uma vez, confirmando o candidato. Portanto, a complexidade total do algoritmo é \(O(V)\).</p>
+      
+      <p>Este algoritmo garante a determinação da existência de um sorvedouro universal em tempo linear \(O(V)\), mesmo utilizando uma matriz de adjacências, que tipicamente requer algoritmos de complexidade \(O(V^2)\).</p>
+    </div>          
+  </li>
+
+  </ul>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Atividade Continuada 4</title>
+
+  <!-- MATHJAX 3 (através da CDN) -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- MATHJAX 3 (salvo no computador) -->
+  <!-- <script type="text/javascript" async src="../../../Aplicativos/MathJax-master/es5/tex-mml-chtml.js" async></script> -->
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .answer {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        text-align: left;
+        margin: 40px;
+        padding: 40px;
+    }
+  </style>
+</head>
+<body>
+    <div class="answer">
+        <h2>Questão 1</h2>
+        <p>Vamos usar o método de árvore de recursão para encontrar o limite superior assintótico para a recorrência \(T(n) = 4T(\lfloor n/2 \rfloor) + cn\).</p>
+        <table border="1" cellspacing="0" cellpadding="5" >
+            <tr>
+                <th>Nível</th>
+                <th>Tamanho do nó</th>
+                <th>Número de nós</th>
+                <th>Tempo por nó</th>
+                <th>Custo do nível</th>
+            </tr>
+            <tr>
+                <td>0</td>
+                <td>\(n\)</td>
+                <td>\(4^0 = 1\)</td>
+                <td>\(c \cdot n\)</td>
+                <td>\(c \cdot n\)</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>\(\frac{n}{2}\)</td>
+                <td>\(4^1 = 4\)</td>
+                <td>\(c \cdot \frac{n}{2}\)</td>
+                <td>\(4 \cdot c \cdot \frac{n}{2} = 2cn\)</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>\(\frac{n}{4}\)</td>
+                <td>\(4^2 = 16\)</td>
+                <td>\(c \cdot \frac{n}{4}\)</td>
+                <td>\(16 \cdot c \cdot \frac{n}{4} = 4cn\)</td>
+            </tr>
+            <tr>
+                <td>\(i\)</td>
+                <td>\(\frac{n}{2^i}\)</td>
+                <td>\(4^i\)</td>
+                <td>\(c \cdot \frac{n}{2^i}\)</td>
+                <td>\(4^i \cdot c \cdot \frac{n}{2^i} = 2^i cn\)</td>
+            </tr>
+            <tr>
+                <td>\(\log_2 n\)</td>
+                <td>\(1\)</td>
+                <td>\(4^{\log_2 n} = n^2\)</td>
+                <td>\(\Theta(1)\)</td>
+                <td>\(n^{\log_2 4} = n^2\)</td>
+            </tr>
+        </table>
+        <p>Soma dos custos:</p>
+        <p>
+            \[
+            T(n) = \sum_{i=0}^{\log_2 n - 1} 2^i cn + n^2
+            \]
+            \[
+            \sum_{i=0}^{\log_2 n - 1} 2^i = 2^{\log_2 n} - 1 = n - 1
+            \]
+            \[
+            T(n) = cn \sum_{i=0}^{\log_2 n - 1} 2^i + n^2 = cn (n - 1) + n^2 = cn^2 - cn + n^2
+            \]
+        </p>
+        <p>Desconsiderando termos de ordem inferior:</p>
+        <p>
+            \[
+            T(n) = O(n^2)
+            \]
+        </p>
+        <p>Portanto, o limite superior assintótico para a recorrência \(T(n) = 4T(\lfloor n/2 \rfloor) + cn\) é \(O(n^2)\).</p>
+    </div>
+
+    <div class="answer">
+        <h2>Questão 2</h2>
+        <p>Agora, usando o método da substituição, vamos verificar o limite superior assintótico para a recorrência \(T(n) = 4T(\lfloor n/2 \rfloor) + cn\), onde c é uma constante positiva, obtido na questão anterior.</p>
+        <p>Seja \(T(n) = 4T(\lfloor n/2 \rfloor) + cn\), queremos provar que \(T(n) \leq g \cdot n²\), onde \(n \geq n_0\) e \(g\), \(n > 0\).</p>
+        <p>Hipótese de indução: \(T(k) \leq g \cdot k^2\), para todo \(k\), onde \(n_0 \leq k < n\).</p>
+        <p>Passo de indução: queremos provar que \(T(n) \leq g \cdot n^2\).</p>
+        <p>
+            \[
+            T(n) = 4T(\lfloor n/2 \rfloor) + cn \leq 4g \cdot \left( \frac{n}{2} \right)^2 + cn 
+            \]
+            \[
+            = 4g \cdot \frac{n^2}{4} + cn
+            \]
+            \[
+            = g \cdot n^2 + cn
+            \]
+        </p>
+        <p>A hipótese não foi suficiente, precisamos construir uma hipótese mais forte.</p>
+        <p>Hipótese de indução 2: queremos provar que \(T(k) \leq g \cdot k^2 - j \cdot k\), para todo \(k\),  onde \(n_0 \leq k < n\) e \(g, j, n_0 > 0\).</p>
+        <p>Passo de indução: queremos provar que \(T(n) \leq g \cdot n^2 - j \cdot k\).</p>
+        <p>
+            \[
+            T(n) = 4T(\lfloor n/2 \rfloor) + cn \leq 4(g \cdot \left( \frac{n}{2} \right)^2 - j \cdot \frac{n}{2}) + cn
+            \]
+            \[
+            = 4g \cdot \frac{n^2}{4} - 2j \cdot n + cn
+            \]
+            \[
+            = g \cdot n^2 - 2j \cdot n + cn
+            \]
+            \[
+            = g \cdot n^2 - j \cdot n - j \cdot n + cn
+            \]
+        <p>
+        <p>Daí, temos:</p>
+        <p>
+            \[
+            - j \cdot n + cn \leq 0
+            \]
+            \[
+            c \leq j
+            \]
+        </p>
+        <p>Se \(c \leq j\), então \(T(n) \leq g \cdot n^2 - j \cdot n\).</p>
+        <p>Portanto, o limite superior assintótico para a recorrência \(T(n) = 4T(\lfloor n/2 \rfloor) + cn\) é \(O(n^2)\).</p>,
+    </div>
+
+    <div class="answer">
+        <h2>Questão 3</h2>
+        <p>Vamos usar o método mestre para fornecer limites assintóticos restritos para as recorrências a seguir:</p>
+        <ol type="a">
+            <li>
+                <p>\(T(n) = 2T(n/4) + 1\)</p>
+                <p>Neste caso, \(a = 2\), \(b = 4\) e \(f(n) = 1\).</p>
+                <ul>
+                    <li>\(n^{\log_b a} = n^{\log_4 2} = n^{1/2}\)</li>
+                </ul>
+                <p>Veja que \(f(n) = 1 \leq n^{log_b a - \epsilon} \leq n^{log_4 2 - 1/2} = n^{1/2 - 1/2} = n^0 = 1\)/, para \(\epsilon = 1/2 = 0,5\).</p>
+                <p>Ou seja, \(f(n) = O(n^{log_b a - \epsilon})\) e o caso 1 do método mestre se aplica.</p>
+                <p>Portanto, \(T(n) = \Theta(\sqrt{n})\).</p>  
+            </li> <br>
+            <li>
+                <p>\(T(n) = 2T(n/4) + n²\)</p>
+                <p>Neste caso, \(a = 2\), \(b = 4\) e \(f(n) = n²\).</p>
+                <ul>
+                    <li>\(n^{\log_b a} = n^{\log_4 2} = n^{1/2} = n^{0,5}\)</li>
+                </ul>
+                <p>Veja que \(f(n) = n² \geq n^{log_b a + \epsilon} \geq n^{log_4 2 + 1/2} = n^{1/2 + 1/2} = n^1 = n\), para \(\epsilon = 1/2 = 0,5\) e</p>
+                <p>
+                    \(af(n/b) \leq cf(n)\), onde \(c < 1\), para \(n > n_0\). <br>
+                    \(2 \cdot \left( \frac{n}{4} \right)^2 \leq c \cdot n^2\), <br>
+                    \(2 \cdot \frac{n^2}{16} \leq c \cdot n^2\), <br>
+                    \(\frac{n^2}{8} \leq c \cdot n^2\), <br>
+                    \(c \geq \frac{1}{8}\).
+                </p>
+                <p>Ou seja, \(f(n) = \Omega(n^{log_b a + \epsilon})\) e o caso 3 do método mestre se aplica.</p>
+                <p>Portanto, \(T(n) = \Theta(n²)\).</p>
+            </li> <br>
+            <li>
+                <p>\(T(n) = 2T(n/4) + n\)</p>
+                <p>Neste caso, \(a = 2\), \(b = 4\) e \(f(n) = n\).</p>
+                <ul>
+                    <li>\(n^{\log_b a} = n^{\log_4 2} = n^{1/2} = n^{0,5}\)</li>
+                </ul>
+                <p>Veja que \(f(n) = n \geq n^{log_b a - \epsilon} \geq n^{log_4 2 - 0,25} = n^{1/2 - 0,25} = n^{0,25} = \sqrt{n}\), para \(\epsilon = 0,25\) e</p>
+                <p>
+                    \(af(n/b) \leq cf(n)\), onde \(c < 1\), para \(n > n_0\). <br>
+                    \(2 \cdot \left( \frac{n}{4} \right) \leq c \cdot n\), <br>
+                    \(2 \cdot \frac{n}{4} \leq c \cdot n\), <br>
+                    \(\frac{n}{2} \leq c \cdot n\), <br>
+                    \(c \geq \frac{1}{2}\).
+                </p>
+                <p>Ou seja, \(f(n) = \Omega(n^{log_b a - \epsilon})\) e o caso 3 do método mestre se aplica.</p>
+                <p>Portanto, \(T(n) = \Theta(n)\).</p>
+            </li> <br>
+            <li>
+                <p>\(T(n) = 2T(n/4) + \sqrt{n}\)</p>
+                <p>Neste caso, \(a = 2\), \(b = 4\) e \(f(n) = \sqrt{n}\).</p>
+                <ul>
+                    <li>\(n^{\log_b a} = n^{\log_4 2} = n^{1/2} = n^{0,5}\)</li>
+                </ul>
+                <p>Veja que \(f(n) = n^{1/2} \leq n^{1/2}log^k n \leq n^{1/2}log^0 n = n^{1/2}\), para \(k = 0\).</p>
+                <p>Ou seja, \(f(n) = \Theta(n^{log_b a})\) e o caso 2 do método mestre se aplica.</p>
+                <p>Portanto, \(T(n) = \Theta(n^{1/2}log^1 n) = \Theta(\sqrt{n}log n)\).</p>
+            </li>
+        </ol>
+    </div>
+</body>
+</html>

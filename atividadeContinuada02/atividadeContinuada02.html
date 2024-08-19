@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Atividade Continuada 2</title>
+
+  <!-- MATHJAX 3 (através da CDN) -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- MATHJAX 3 (salvo no computador) -->
+  <!-- <script type="text/javascript" async src="../../../Aplicativos/MathJax-master/es5/tex-mml-chtml.js" async></script> -->
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .answer {
+      background-color: #f2f2f2;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+    }
+    .answer p {
+      margin: 0;
+    }
+    .answer code {
+      display: block;
+      padding: 5px;
+      background-color: #e6e6e6;
+      border-radius: 3px;
+    }
+    .title_answer {
+      font-weight: bold;
+
+    }
+    .negrito {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <p> 
+        <h1>Questões</h1>
+      
+        <ul>
+          <li>
+          <p><strong>Questão 1 (Partição).</strong> A entrada é uma lista \( L[1..n] \) 
+            de números, com \(n \geq 1\). Lembre-se que os nossos arrays 
+            nessa disciplina começam com o índice \(1\). O elemento \(L[1]\) é chamado de pivô. Seja \(k\)
+            o número de elementos de \(L\) com valor menor ou igual ao pivô. 
+            Seu objetivo é especificar um algoritmo 
+            de <strong>tempo linear</strong> \(\Theta(n)\) para reorganizar 
+            os elementos de \(L\) de modo que as três condições a seguir 
+            sejam satisfeitas:
+            <ul>
+              <li>O pivô \(L[1]\) seja reposicionado para a posição \(k\).</li>
+              <li>Os elementos com valor menor ou igual ao pivô sejam colocados nas \(k\)
+                primeiras posições.</li>
+              <li>Os elementos com valor maior que o pivô sejam colocados nas últimas \(n-k\) posições.</li>
+            </ul>
+            <p><strong>Obs. 1:</strong> Este problema poderia ser resolvido simplesmente ordenando a lista, 
+              mas neste caso gastaria tempo \(\Theta(n\log{n})\).</p>
+            <p><strong>Obs. 2:</strong> Este algoritmo é utilizado pelo algoritmo de ordenação Quicksort.</p>
+      
+            <p>
+              <strong>Passos Básicos:</strong> Utilize dois índices \(i\) e \(j\).
+              O índice \(i\) vai da posição \(2\) em direção em final da lista, e o índice \(j\)
+              vai da última posição em direção ao início da lista. Em cada iteração, avançe o \(i\)
+              se \(L[i]\) é menor ou igual ao pivô. Caso contrário, avançe o \(j\) se \(L[j]\)
+              é maior que o pivô. Se nenhuma destas condições ocorrer, troque \(L[i]\) com \(L[j]\)
+              e avance \(i\) e \(j\). A repetição termina quando \(j &lt; i\).
+              Finalmente, reposicione o pivô de modo que apenas elementos maiores 
+              que o pivô estejam à direita dele.
+            </p>
+      
+            <p><strong>Invariante de loop:</strong><br>
+            INV1: Todos os elementos nas posições menores que \(i\) possuem valor menor ou igual ao pivô.<br>
+            INV2: Todos os elementos nas posições maiores que \(j\) possuem valor maior que o pivô.
+            </p>
+            <p>
+              <ol type="a">
+                <li>Forneça uma medida de progresso, e argumente que o algoritmo termina.</li>
+                
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <p>A medida de progreso para esse algoritmo são os valores de i e j, em que i aumenta quando um elemento menor que o pivô é encontrado e j diminui quando um elemento maior que o pivô é encontrado. O loop termina quando i for maior que j. Isso significa que todos os elementos menores que o pivô estão à esquerda dele e todos os elementos maiores que o pivô estão à direita dele.
+                </p>
+                </div>
+
+                <li>Indique como estabelecer o invariante do loop, ou seja, quais ações 
+                  no código pré-loop tornam o invariante do loop verdadeiro na primeira iteração. Justifique.</li>
+                
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <p>Para estabelecer o invariante do loop, o código pré-loop deve inicializar i = 2, j = n e pivo = L[1]. Isso garante que todos os elementos menores que o pivô estão à esquerda de i e todos os elementos maiores que o pivô estão à direita de j. Além disso, o pivô está na posição 1.</p>
+                </div>
+
+                <li>Qual o código do loop? Argumente que ele mantém o invariante do loop.</li>
+
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <p>O código do loop é o seguinte:</p>
+                  <pre><code>
+                    enquanto j >= i faça
+                        enquanto j >= i && L[i] <= pivo faca
+                            i = i + 1
+                        enquanto j >= i && L[j] > pivo faca
+                            j = j - 1
+                        se j > i então
+                            troca L[i] com L[j]
+                  </code></pre>
+                  <p>O invariante 1 é mantido porque i é incrementado quando um elemento menor que o pivô é encontrado. O invariante 2 é mantido porque j é decrementado quando um elemento maior que o pivô é encontrado. Além disso, se j > i, os elementos em L[i] e L[j] são trocados.</p>
+                </div>
+
+                <li>Argumente que o invariante do loop e a condição de saída garantem que, 
+                  assim que a execução sair do loop teremos \(j = i-1\).</li>
+
+                <div class="answer"> 
+                  <p class="title_answer">Resposta:</p>
+                  <p>Quando a execução sair do loop, teremos \(j = i-1\) porque a condição de saída do loop é \(j > i\). Isso significa que todos os elementos menores que o pivô estão à esquerda de i e todos os elementos maiores que o pivô estão à direita de j. Além disso, o pivô está na posição 1.</p>
+                </div>
+
+                <li>Qual o código pós-loop? Argumente que as pós-condições são satisfeitas.</li>
+
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <p>O código pós-loop é o seguinte:</p>
+                  <pre><code>
+                    troca L[1] com L[j]
+                  </code></pre>
+                  <p>As pós-condições são satisfeitas porque o pivô é reposicionado para a posição j. Além disso, todos os elementos menores que o pivô estão à esquerda de j e todos os elementos maiores que o pivô estão à direita de j.</p>
+                </div>
+
+                <li>Forneça o pseudocódigo.</li>
+
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <pre><code>
+                    particao(L, n):
+                        i = 2
+                        j = n
+                        pivo = L[1]
+                        enquanto j >= i faça
+                            enquanto j >= i && L[i] <= pivo faca
+                                i = i + 1
+                            enquanto j >= i && L[j] > pivo faca
+                                j = j - 1
+                            se j > i então
+                                troca L[i] com L[j]
+                        troca L[1] com L[j]
+                  </code></pre>
+                </div>
+
+                <li>Considere os casos especiais a seguir e indique, caso necessário, 
+                  quais adaptações devem ser feitas no algoritmo para atendê-los. 
+                  (i) A lista tem apenas \(1\) elemento. (ii) Nenhum elemento é maior que o pivô. 
+                  (iii) Exceto o pivô, todo os outros elementos são maiores que o pivô.
+                </li>
+
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <p>(i) Se a lista tem apenas 1 elemento, o algoritmo não precisa fazer nada. O algoritmo pode ter apenas um if, no começo do loop externo, para tratar esse caso. </p>
+                  <p>(ii) Se nenhum elemento é maior que o pivô, o pivô será o maior elemento e deverá ser posicionado na última posição. Apenas o primeiro loop interno precisa ser executado. </p>
+                  <p>(iii) Se todos os elementos, exceto o pivô, são maiores que o pivô, o pivô ficará na primeira posição e todos os outros elementos ficarão à direita dele. O algoritmo não precisa fazer nada. </p>
+                </div>
+
+                <li>Forneça a complexidade de tempo de pior caso em notação \(\Theta\).</li>
+
+                <div class="answer">
+                  <p class="title_answer">Resposta:</p>
+                  <p>O pior caso acontece quando a lista está ordenada de forma crescente ou decrescente. Nesse caso, o pivô será o menor ou o maior elemento da lista. Assim, o algoritmo terá que percorrer toda a lista, o que resulta em \(\Theta(n)\).</p>
+                </div>
+
+              </ol>
+            </p>
+          </p></li>
+      
+          <li>
+            <p><strong>Questão 2:</strong> Determine a complexidade do algoritmo abaixo 
+              em função do valor de \(n\). Forneça também a complexidade de cada linha. 
+              Cada execução de \(f(i)\) tem tempo \( \Theta(i) \), cada execução de \(g(j)\)
+              tem tempo \( \Theta(\log{n}) \), e cada execução de \(h(i)\) tem tempo \(\Theta(n^2)\).<br>
+              <pre><code>
+                algoritmo(n):
+                1    para i de 1 até n 
+                2        f(i)
+                3        para j de i+1 até n 
+                4            g(j)
+                5    para i de 1 até n 
+                6        h(i)
+              </code></pre>
+            </p>
+
+            <div class="answer">
+              <p class="title_answer">Resposta:</p>
+
+              \[
+              \begin{array}{|l|l|l|}
+              \hline
+              \text{Linha} & \text{Custo} & \text{Nº de Passos} \\
+              \hline
+              \text 1 & C_1 & n + 1 \\
+              \hline  
+              \text 2 & C_2 & n \\
+              \hline
+              \text 3 & C_3 & \sum_{i=1}^{n-1} (n - i + 1) \\
+              \hline
+              \text 4 & C_4 & \sum_{i=1}^{n-1} (n - i) \\
+              \hline
+              \text 5 & C_5 & n + 1 \\
+              \hline
+              \text 6 & C_6 & n \\
+              \hline
+              \end{array}
+              \]  
+
+              <p>Pelas propriedades de somatório, temos que:</p>
+              \[ \sum_{i=1}^{n-1}(n-i)=\sum_{i=1}^{n-1}n-\sum_{i=1}^{n-1}i=n\cdot\sum_{i=1}^{n-1}1-\sum_{i=1}^{n-1}i=n(n-1)-\frac{n(n-1)}{2}=\frac{n(n-1)}{2}=\frac{n^2 - n}{2} \]
+              
+              <p>Tomando esse resultado acima, também obtemos que</p>
+              \[ \sum_{i=1}^{n-1}(n-i+1)=\sum_{i=1}^{n-1}(n-i)+\sum_{i=1}^{n-1}1=n\cdot\frac{n-1}{2}+(n-1)=(n-1)\left(\frac{n+2}{2}\right)=\frac{n^2+n-2}{2} \]               
+
+              <p>Assim, o número de passos \( T(n) \) da ordenação por seleção é</p>
+              \[ T(n)=C_1(n+1)+C_2n+C_3\left(\frac{n^2+n-2}{2}\right)+C_4\left(\frac{n^2-n}{2}\right)+C_5(n+1)+C_6n \]
+
+              <p>Que é uma função da forma \( T(n)=an^2+bn+c \), onde \( a \), \( b \), \( c \) são constantes. Portanto, a complexidade do algoritmo é \( \Theta(n^2) \).</p>
+            </div>
+
+          </li>
+        
+          </ul>
+</body>
+</html>
